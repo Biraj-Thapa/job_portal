@@ -1,19 +1,28 @@
 import express from "express"
 import dotenv from "dotenv";
+dotenv.config();
+
 import cors from "cors"
+import path from "path";
+import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.route.js";
+import jobRoutes from "./routes/job.route.js";
+import applicationRoutes from "./routes/application.route.js"
 
 
 
 const app=express()
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(express.json());
-dotenv.config();
-
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const PORT = process.env.PORT || 6000
 
 app.use("/api/auth", authRoutes);
+app.use("/api/jobs", jobRoutes)
+app.use("/api/applications", applicationRoutes);
 
 
 app.listen(PORT, ()=>{
