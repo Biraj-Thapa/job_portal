@@ -17,6 +17,11 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(cors({
+  origin: "http://localhost:5173", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 
 const PORT = process.env.PORT || 6000
 

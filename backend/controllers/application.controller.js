@@ -10,7 +10,7 @@ export const applyForJob = async (req, res) => {
       return res.status(400).json({ message: "CV file is required" });
     }
 
-    const cvUrl = req.file.path;
+    const cvUrl = `cv/${req.file.filename}`;;
 
     const newApp = await prisma.application.create({
       data: {
