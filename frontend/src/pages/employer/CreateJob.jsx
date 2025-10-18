@@ -43,18 +43,36 @@ const CreateJob = () => {
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg">
       <h2 className="text-2xl font-bold text-center mb-4">Post a New Job</h2>
 
-      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
         {({ isSubmitting }) => (
           <Form className="space-y-4">
             <InputField name="title" label="Job Title" />
             <InputField name="company" label="Company Name" />
             <InputField name="description" label="Job Description" />
             <InputField name="location" label="Location" />
+            <div className="grid grid-cols-2 gap-4">
+              <Input
+                label="Category"
+                name="category"
+                placeholder="Frontend, Backend, etc."
+              />
+              <Input
+                label="Tech Stack"
+                name="techStack"
+                placeholder="React, Node.js, Laravel..."
+              />
+            </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`btn btn-primary w-full ${isSubmitting ? "loading" : ""}`}
+              className={`btn btn-primary w-full ${
+                isSubmitting ? "loading" : ""
+              }`}
             >
               {isSubmitting ? "Creating..." : "Create Job"}
             </button>

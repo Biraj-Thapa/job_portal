@@ -5,7 +5,6 @@ import api from "../../api/axios";
 const JobApplications = () => {
   const { id: jobId } = useParams();
   const [applications, setApplications] = useState([]);
-  const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     (async () => {
@@ -24,18 +23,17 @@ const JobApplications = () => {
       <div className="space-y-4">
         {applications.length === 0 && <p className="text-muted">No applications yet.</p>}
         {applications.map((app) => (
-          <div key={app.id} className="card p-4 shadow-sm">
-            <p>
-              <strong>Name:</strong> {app.user.name}
+          <div key={app.id} className="card p-4 shadow-sm space-y-2">
+            <p><strong>Name:</strong> {app.user.name}</p>
+            <p><strong>Email:</strong> {app.user.email}</p>
+            <p><strong>Education:</strong> {app.education || "N/A"}</p>
+            <p><strong>Cover Letter:</strong></p>
+            <p className="whitespace-pre-wrap border p-2 rounded bg-gray-50">
+              {app.coverLetter || "No cover letter"}
             </p>
-            <p>
-              <strong>Email:</strong> {app.user.email}
-            </p>
-            <p>
-              <strong>Applied at:</strong> {new Date(app.createdAt).toLocaleString()}
-            </p>
+            <p><strong>Applied at:</strong> {new Date(app.createdAt).toLocaleString()}</p>
             <a
-              href={`http://localhost:5000/uploads/${app.cvUrl}`}
+              href={`http://localhost:5000/${app.cvUrl}`}
               target="_blank"
               rel="noreferrer"
               className="text-blue-500"

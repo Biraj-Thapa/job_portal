@@ -5,8 +5,11 @@ import api from "../../api/axios";
 
 const ApplyJob = () => {
   const { id: jobId } = useParams();
-  const { user } = useSelector((state) => state.auth); // token is auto-attached via interceptor
+  const { user } = useSelector((state) => state.auth); // token auto-attached via interceptor
+
   const [cvFile, setCvFile] = useState(null);
+  const [coverLetter, setCoverLetter] = useState(""); // ✅ added
+  const [education, setEducation] = useState("");     // ✅ added
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -20,11 +23,13 @@ const ApplyJob = () => {
     const formData = new FormData();
     formData.append("cv", cvFile);
     formData.append("jobId", jobId);
+    formData.append("coverLetter", coverLetter);
+    formData.append("education", education);
 
     try {
       setLoading(true);
       const res = await api.post("/applications/apply", formData, {
-        headers: { "Content-Type": "multipart/form-data" }, // token auto-attached
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       setMessage(res.data.message);
@@ -41,7 +46,9 @@ const ApplyJob = () => {
     <div className="p-6 max-w-md mx-auto">
       <h2 className="text-2xl font-bold mb-4">Apply for Job</h2>
       {message && <p className="mb-4 text-red-500">{message}</p>}
+
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* CV Upload */}
         <div>
           <label className="block mb-2 font-semibold">Upload CV</label>
           <input
@@ -49,9 +56,40 @@ const ApplyJob = () => {
             accept=".pdf,.doc,.docx"
             onChange={handleFileChange}
             className="border rounded p-2 w-full"
+            required
           />
         </div>
-        <button type="submit" disabled={loading} className="btn btn-primary w-full">
+
+        {/* Cover Letter */}
+        <div>
+          <label className="block mb-2 font-semibold">Cover Letter</label>
+          <textarea
+            value={coverLetter}
+            onChange={(e) => setCoverLetter(e.target.value)}
+            className="border rounded p-2 w-full"
+            rows="5"
+            placeholder="Write your cover letter here..."
+          />
+        </div>
+
+        {/* Education */}
+        <div>
+          <label className="block mb-2 font-semibold">Education</label>
+          <input
+            type="text"
+            value={education}
+            onChange={(e) => setEducation(e.target.value)}
+            className="border rounded p-2 w-full"
+            placeholder="e.g., BSc Computer Science"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn btn-primary w-full"
+        >
           {loading ? "Submitting..." : "Apply"}
         </button>
       </form>
