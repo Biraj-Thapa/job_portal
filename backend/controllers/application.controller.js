@@ -3,7 +3,7 @@ import prisma  from "../prismaClient.js";
 
 export const applyForJob = async (req, res) => {
   try {
-    const { jobId } = req.body;
+    const { jobId, coverLetter,education } = req.body;
     const userId = req.user.id; 
 
      if (!req.file) {
@@ -17,6 +17,8 @@ export const applyForJob = async (req, res) => {
         userId: Number(userId),
         jobId: Number(jobId),
         cvUrl,
+         coverLetter,
+         education
       },
     });
 

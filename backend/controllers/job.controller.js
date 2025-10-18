@@ -2,7 +2,7 @@ import prisma from "../prismaClient.js";
 
 export const createJob = async (req, res) => {
   try {
-    const { title, description, company, location } = req.body;
+    const { title, description, company, location,category, techStack } = req.body;
 
     if (req.user.role !== "EMPLOYER") {
       return res.status(403).json({ message: "Only employers can post jobs" });
@@ -14,6 +14,8 @@ export const createJob = async (req, res) => {
         description,
         company,
         location,
+        category,
+        techStack,
         employerId: req.user.id,
       },
     });
