@@ -13,6 +13,10 @@ const CreateJob = () => {
     company: "",
     description: "",
     location: "",
+    category: "",
+    salary: "",
+    jobLevel: "",
+    applicationDeadline: "",
   };
 
   const validationSchema = Yup.object({
@@ -20,6 +24,10 @@ const CreateJob = () => {
     company: Yup.string().required("Company is required"),
     description: Yup.string().required("Job description is required"),
     location: Yup.string().required("Location is required"),
+    category: Yup.string().required("Category is required"),
+    salary: Yup.string(),
+    jobLevel: Yup.string(),
+    applicationDeadline: Yup.date(),
   });
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -54,18 +62,26 @@ const CreateJob = () => {
             <InputField name="company" label="Company Name" />
             <InputField name="description" label="Job Description" />
             <InputField name="location" label="Location" />
-            <div className="grid grid-cols-2 gap-4">
-              <Input
-                label="Category"
-                name="category"
-                placeholder="Frontend, Backend, etc."
-              />
-              <Input
-                label="Tech Stack"
-                name="techStack"
-                placeholder="React, Node.js, Laravel..."
-              />
-            </div>
+            <InputField
+              name="category"
+              label="Category"
+              placeholder="Frontend, Backend, etc."
+            />
+            <InputField
+              name="salary"
+              label="Salary"
+              placeholder="50000, 60k/year..."
+            />
+            <InputField
+              name="jobLevel"
+              label="Job Level"
+              placeholder="Junior, Mid, Senior..."
+            />
+            <InputField
+              name="applicationDeadline"
+              type="date"
+              label="Application Deadline"
+            />
 
             <button
               type="submit"

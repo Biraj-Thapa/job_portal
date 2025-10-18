@@ -26,6 +26,7 @@ const SeekerDashboard = () => {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">Available Jobs</h2>
       <div className="grid gap-4 md:grid-cols-2">
+        {jobs.length === 0 && <p className="text-muted">No jobs available.</p>}
         {jobs.map((job) => (
           <JobCard key={job.id} job={job} onApply={handleApply} />
         ))}

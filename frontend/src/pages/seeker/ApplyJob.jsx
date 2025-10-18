@@ -6,10 +6,9 @@ import api from "../../api/axios";
 const ApplyJob = () => {
   const { id: jobId } = useParams();
   const { user } = useSelector((state) => state.auth); // token auto-attached via interceptor
-
   const [cvFile, setCvFile] = useState(null);
-  const [coverLetter, setCoverLetter] = useState(""); // ✅ added
-  const [education, setEducation] = useState("");     // ✅ added
+  const [coverLetter, setCoverLetter] = useState(""); // added
+  const [education, setEducation] = useState("");     // added
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ const ApplyJob = () => {
     try {
       setLoading(true);
       const res = await api.post("/applications/apply", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data" }, // token auto-attached
       });
 
       setMessage(res.data.message);
@@ -46,9 +45,7 @@ const ApplyJob = () => {
     <div className="p-6 max-w-md mx-auto">
       <h2 className="text-2xl font-bold mb-4">Apply for Job</h2>
       {message && <p className="mb-4 text-red-500">{message}</p>}
-
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* CV Upload */}
         <div>
           <label className="block mb-2 font-semibold">Upload CV</label>
           <input
@@ -56,11 +53,9 @@ const ApplyJob = () => {
             accept=".pdf,.doc,.docx"
             onChange={handleFileChange}
             className="border rounded p-2 w-full"
-            required
           />
         </div>
 
-        {/* Cover Letter */}
         <div>
           <label className="block mb-2 font-semibold">Cover Letter</label>
           <textarea
@@ -72,7 +67,6 @@ const ApplyJob = () => {
           />
         </div>
 
-        {/* Education */}
         <div>
           <label className="block mb-2 font-semibold">Education</label>
           <input
@@ -80,8 +74,7 @@ const ApplyJob = () => {
             value={education}
             onChange={(e) => setEducation(e.target.value)}
             className="border rounded p-2 w-full"
-            placeholder="e.g., BSc Computer Science"
-            required
+            placeholder="Your highest qualification"
           />
         </div>
 

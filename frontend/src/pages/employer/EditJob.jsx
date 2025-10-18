@@ -14,6 +14,10 @@ const EditJob = () => {
     company: "",
     description: "",
     location: "",
+    category: "",
+    salary: "",
+    jobLevel: "",
+    applicationDeadline: "",
   };
 
   const validationSchema = Yup.object({
@@ -21,6 +25,10 @@ const EditJob = () => {
     company: Yup.string().required("Company is required"),
     description: Yup.string().required("Job description is required"),
     location: Yup.string().required("Location is required"),
+    category: Yup.string().required("Category is required"),
+    salary: Yup.string(),
+    jobLevel: Yup.string(),
+    applicationDeadline: Yup.date(),
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
@@ -47,6 +55,12 @@ const EditJob = () => {
         company: res.data.company,
         description: res.data.description,
         location: res.data.location,
+        category: res.data.category || "",
+        salary: res.data.salary || "",
+        jobLevel: res.data.jobLevel || "",
+        applicationDeadline: res.data.applicationDeadline
+          ? new Date(res.data.applicationDeadline).toISOString().slice(0, 16)
+          : "",
       });
     } catch (err) {
       console.error(err);
@@ -74,11 +88,22 @@ const EditJob = () => {
               <InputField name="company" label="Company Name" />
               <InputField name="description" label="Job Description" />
               <InputField name="location" label="Location" />
+              <InputField name="category" label="Category" />
+<InputField name="salary" label="Salary" />
+<InputField name="jobLevel" label="Job Level" />
+<input
+  type="datetime-local"
+  name="applicationDeadline"
+  value={values.applicationDeadline}
+  onChange={(e) => setValues({ ...values, applicationDeadline: e.target.value })}
+  className="border rounded p-2 w-full"/>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`btn btn-primary w-full ${isSubmitting ? "loading" : ""}`}
+                className={`btn btn-primary w-full ${
+                  isSubmitting ? "loading" : ""
+                }`}
               >
                 {isSubmitting ? "Updating..." : "Update Job"}
               </button>
