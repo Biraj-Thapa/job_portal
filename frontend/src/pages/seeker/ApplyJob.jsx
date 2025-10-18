@@ -5,10 +5,10 @@ import api from "../../api/axios";
 
 const ApplyJob = () => {
   const { id: jobId } = useParams();
-  const { user } = useSelector((state) => state.auth); // token auto-attached via interceptor
+  const { user } = useSelector((state) => state.auth); 
   const [cvFile, setCvFile] = useState(null);
-  const [coverLetter, setCoverLetter] = useState(""); // added
-  const [education, setEducation] = useState("");     // added
+  const [coverLetter, setCoverLetter] = useState(""); 
+  const [education, setEducation] = useState("");     
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();

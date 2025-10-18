@@ -60,7 +60,13 @@ const CreateJob = () => {
           <Form className="space-y-4">
             <InputField name="title" label="Job Title" />
             <InputField name="company" label="Company Name" />
-            <InputField name="description" label="Job Description" />
+            <InputField
+              name="description"
+              label="Job Description"
+              component="textarea"
+              rows={6}
+              placeholder="Write full job description here..."
+            />
             <InputField name="location" label="Location" />
             <InputField
               name="category"

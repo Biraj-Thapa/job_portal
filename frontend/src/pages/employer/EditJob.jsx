@@ -86,17 +86,26 @@ const EditJob = () => {
             <Form className="space-y-4">
               <InputField name="title" label="Job Title" />
               <InputField name="company" label="Company Name" />
-              <InputField name="description" label="Job Description" />
+              <InputField
+                name="description"
+                label="Job Description"
+                component="textarea"
+                rows={6}
+                placeholder="Write full job description here..."
+              />
               <InputField name="location" label="Location" />
               <InputField name="category" label="Category" />
-<InputField name="salary" label="Salary" />
-<InputField name="jobLevel" label="Job Level" />
-<input
-  type="datetime-local"
-  name="applicationDeadline"
-  value={values.applicationDeadline}
-  onChange={(e) => setValues({ ...values, applicationDeadline: e.target.value })}
-  className="border rounded p-2 w-full"/>
+              <InputField name="salary" label="Salary" />
+              <InputField name="jobLevel" label="Job Level" />
+              <input
+                type="datetime-local"
+                name="applicationDeadline"
+                value={values.applicationDeadline}
+                onChange={(e) =>
+                  setValues({ ...values, applicationDeadline: e.target.value })
+                }
+                className="border rounded p-2 w-full"
+              />
 
               <button
                 type="submit"

@@ -1,6 +1,6 @@
 import { Field, ErrorMessage } from "formik";
 
-const InputField = ({ name, type = "text", label, Icon, placeholder }) => {
+const InputField = ({ name, type = "text", label, Icon, placeholder, component, rows }) => {
   return (
     <div className="form-control w-full">
       <label className="label">
@@ -10,9 +10,13 @@ const InputField = ({ name, type = "text", label, Icon, placeholder }) => {
         {Icon && <Icon size={20} className="ml-3 text-gray-400" />}
         <Field
           name={name}
+          as={component || "input"}       // use "textarea" if component="textarea"
           type={type}
+          rows={component === "textarea" ? rows || 4 : undefined}
           placeholder={placeholder || label}
-          className="input input-bordered input-primary w-full border-none rounded-none focus:outline-none"
+          className={`input input-bordered input-primary w-full border-none rounded-none focus:outline-none ${
+            component === "textarea" ? "p-3 h-auto resize-none" : ""
+          }`}
         />
       </div>
       <ErrorMessage name={name} component="div" className="text-red-500 text-sm mt-1" />
