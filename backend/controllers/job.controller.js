@@ -2,7 +2,7 @@ import prisma from "../prismaClient.js";
 
 export const createJob = async (req, res) => {
   try {
-    const { title, description, company, location,category, techStack } = req.body;
+    const { title, description, company, location,category, salary, jobLevel, applicationDeadline  } = req.body;
 
     if (req.user.role !== "EMPLOYER") {
       return res.status(403).json({ message: "Only employers can post jobs" });
@@ -15,7 +15,9 @@ export const createJob = async (req, res) => {
         company,
         location,
         category,
-        techStack,
+        salary,
+        jobLevel,
+        applicationDeadline: applicationDeadline ? new Date(applicationDeadline) : null,
         employerId: req.user.id,
       },
     });
@@ -66,7 +68,8 @@ export const getJobById = async (req, res) => {
 export const updateJob = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, company, description, location } = req.body;
+    const { title, company, description, location,category,
+          salary, jobLevel, applicationDeadline } = req.body;
 
     if (req.user.role !== "EMPLOYER") {
       return res.status(403).json({ message: "Only employers can update jobs" });
@@ -81,7 +84,10 @@ export const updateJob = async (req, res) => {
 
     const updatedJob = await prisma.job.update({
       where: { id: parseInt(id) },
-      data: { title, company, description, location },
+      data: { title, company, description, location,category,
+        salary,
+        jobLevel,
+        applicationDeadline: applicationDeadline ? new Date(applicationDeadline) : null, },
     });
 
     res.json({ message: "Job updated successfully", job: updatedJob });

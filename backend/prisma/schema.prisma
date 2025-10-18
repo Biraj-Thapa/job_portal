@@ -34,9 +34,11 @@ model Job {
   createdAt   DateTime @default(now())
   employerId  Int
   employer    User     @relation("EmployerJobs", fields: [employerId], references: [id])
-  applications Application[]
-  category     String?       
-  techStack    String? 
+  applications Application[]       
+  category         String?
+  salary           String?          // New
+  jobLevel         String? 
+  applicationDeadline DateTime? 
 }
 
 model Application {
