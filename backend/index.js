@@ -4,10 +4,13 @@ dotenv.config();
 
 import cors from "cors"
 import path from "path";
+import cron from "node-cron";
+
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.route.js";
 import jobRoutes from "./routes/job.route.js";
 import applicationRoutes from "./routes/application.route.js"
+import { deleteExpiredJobs } from "./utils/deleteExpiredJobs.js";
 
 
 
@@ -25,6 +28,12 @@ app.use(cors({
 
 const PORT = process.env.PORT || 6000
 
+cron.schedule("0 0 * * *", async () => {
+  console.log("Running daily job cleanup...");
+  await deleteExpiredJobs();
+});
+
+deleteExpiredJobs();
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes)
 app.use("/api/applications", applicationRoutes);
