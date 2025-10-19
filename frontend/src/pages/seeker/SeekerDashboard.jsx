@@ -20,6 +20,7 @@ const SeekerDashboard = () => {
   }, []);
 
   const handleApply = (jobId) => navigate(`/seeker/jobs/${jobId}/apply`);
+  const handleViewDetail = (jobId) => navigate(`/seeker/jobs/${jobId}`);
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -34,7 +35,7 @@ const SeekerDashboard = () => {
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {jobs.map((job) => (
-            <JobCard key={job.id} job={job} onApply={handleApply} />
+            <JobCard key={job.id} job={job} onApply={handleApply} onClickCard={() => handleViewDetail(job.id)} />
           ))}
         </div>
       )}

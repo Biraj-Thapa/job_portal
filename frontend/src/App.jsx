@@ -19,8 +19,9 @@ import ApplyJob from "./pages/seeker/ApplyJob";
 import EmployerDashboard from "./pages/employer/EmployerDashboard";
 import CreateJob from "./pages/employer/CreateJob";
 import JobApplications from "./pages/employer/JobApplications";
-import MyJobs from "./pages/employer/MyJobs"; // 👈 new
-import EditJob from "./pages/employer/EditJob"; // 👈 new
+import MyJobs from "./pages/employer/MyJobs"; 
+import EditJob from "./pages/employer/EditJob"; 
+import JobDetail from "./pages/seeker/JobDetail";
 
 const App = () => {
   return (
@@ -55,6 +56,14 @@ const App = () => {
                   }
                 />
 
+<Route
+  path="/seeker/jobs/:id"
+  element={
+    <ProtectedRoute allowedRoles={["SEEKER"]}>
+      <JobDetail />
+    </ProtectedRoute>
+  }
+/>
                 <Route
                   path="/seeker/jobs/:id/apply"
                   element={

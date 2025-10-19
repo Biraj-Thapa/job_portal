@@ -8,9 +8,9 @@ import {
   Building2,
 } from "lucide-react";
 
-const JobCard = ({ job, onApply, forEmployer }) => {
+const JobCard = ({ job, onApply, onClickCard, forEmployer }) => {
   return (
-    <div className="relative bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6">
+    <div onClick={() => onClickCard && onClickCard(job.id)} className="relative bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6">
       {/* Gradient Accent */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-t-2xl" />
 
@@ -65,7 +65,10 @@ const JobCard = ({ job, onApply, forEmployer }) => {
           </button>
         ) : (
           <button
-            onClick={() => onApply && onApply(job.id)}
+          
+            onClick={(e) =>{ 
+                e.stopPropagation();
+                onApply && onApply(job.id)}}
             className="px-5 py-2 text-sm rounded-lg font-medium bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md transition"
           >
             Apply Now
