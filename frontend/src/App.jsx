@@ -5,6 +5,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./app/store";
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
+import { Navigate } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -19,8 +20,8 @@ import ApplyJob from "./pages/seeker/ApplyJob";
 import EmployerDashboard from "./pages/employer/EmployerDashboard";
 import CreateJob from "./pages/employer/CreateJob";
 import JobApplications from "./pages/employer/JobApplications";
-import MyJobs from "./pages/employer/MyJobs"; 
-import EditJob from "./pages/employer/EditJob"; 
+import MyJobs from "./pages/employer/MyJobs";
+import EditJob from "./pages/employer/EditJob";
 import JobDetail from "./pages/seeker/JobDetail";
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
             <div className="flex-1">
               <Routes>
                 {/* Public routes */}
+                <Route path="/" element={<Navigate to="/login" />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
@@ -56,14 +58,14 @@ const App = () => {
                   }
                 />
 
-<Route
-  path="/seeker/jobs/:id"
-  element={
-    <ProtectedRoute allowedRoles={["SEEKER"]}>
-      <JobDetail />
-    </ProtectedRoute>
-  }
-/>
+                <Route
+                  path="/seeker/jobs/:id"
+                  element={
+                    <ProtectedRoute allowedRoles={["SEEKER"]}>
+                      <JobDetail />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route
                   path="/seeker/jobs/:id/apply"
                   element={
