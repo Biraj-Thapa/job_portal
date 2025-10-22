@@ -10,6 +10,7 @@ import { Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/common/ProtectedRoute";
+import AboutUs from "./pages/AboutUs";
 
 // ✅ Seeker pages
 import SeekerDashboard from "./pages/seeker/SeekerDashboard";
@@ -39,6 +40,7 @@ const App = () => {
                 <Route path="/" element={<Navigate to="/login" />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/about-us" element={<AboutUs />} />
 
                 {/* Seeker routes */}
                 <Route

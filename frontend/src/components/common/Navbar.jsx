@@ -18,7 +18,6 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           
-          {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
             <img 
               src={Logo} 
@@ -28,7 +27,6 @@ const Navbar = () => {
             <span className="font-bold text-2xl tracking-wide">JobPortal</span>
           </Link>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6">
             {user && user.role === "EMPLOYER" && (
               <>
@@ -51,13 +49,12 @@ const Navbar = () => {
                 <Link to="/seeker/my-applications" className="flex items-center gap-1 hover:text-yellow-300 transition">
                   <Briefcase size={18} /> My Applications
                 </Link>
-                <Link to="/jobs" className="flex items-center gap-1 hover:text-yellow-300 transition">
-                  <Search size={18} /> Browse Jobs
+                <Link to="/about-us" className="flex items-center gap-1 hover:text-yellow-300 transition">
+                  <Search size={18} /> About Us
                 </Link>
               </>
             )}
 
-            {/* User Info & Logout */}
             {user && (
               <div className="flex items-center space-x-3">
                 <User size={18} />
@@ -72,7 +69,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Hamburger */}
           <div className="md:hidden">
             <button 
               onClick={() => setMenuOpen(!menuOpen)} 
@@ -95,7 +91,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {menuOpen && (
           <div className="md:hidden mt-2 space-y-2 bg-indigo-700 p-3 rounded-lg shadow-lg">
             {user && user.role === "EMPLOYER" && (
@@ -109,7 +104,7 @@ const Navbar = () => {
               <>
                 <Link to="/seeker/dashboard" className="block hover:text-yellow-300 transition">Dashboard</Link>
                 <Link to="/seeker/my-applications" className="block hover:text-yellow-300 transition">My Applications</Link>
-                <Link to="/jobs" className="block hover:text-yellow-300 transition">Browse Jobs</Link>
+                <Link to="/about-us" className="block hover:text-yellow-300 transition">About us</Link>
               </>
             )}
             {user && (
