@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/axios";
+import { toast } from "react-toastify";
 
 const ApplyJob = () => {
   const { id: jobId } = useParams();
@@ -31,10 +32,10 @@ const ApplyJob = () => {
         headers: { "Content-Type": "multipart/form-data" }, // token auto-attached
       });
 
-      setMessage(res.data.message);
+      toast.success(res.data.message || "Application submitted successfully!");
       navigate("/seeker/my-applications");
     } catch (err) {
-      setMessage(err.response?.data?.message || "Something went wrong.");
+       toast.error(err.response?.data?.message || "Something went wrong.");
       console.error(err);
     } finally {
       setLoading(false);
