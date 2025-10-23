@@ -1,4 +1,5 @@
 import prisma from "../prismaClient.js";
+import { calculateIsClosed } from "../utils/calculateIsClosed.js";
 
 export const createJob = async (req, res) => {
   try {
@@ -37,7 +38,12 @@ export const getAllJobs = async (req, res) => {
       },
       orderBy: { createdAt: "desc" },
     });
-    res.json(jobs);
+     const jobsWithStatus = jobs.map(job => ({
+      ...job,
+      isClosed: calculateIsClosed(job.applicationDeadline),
+    }));
+
+    res.json(jobsWithStatus);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
@@ -58,7 +64,7 @@ export const getJobById = async (req, res) => {
 
     if (!job) return res.status(404).json({ message: "Job not found" });
 
-    res.json(job);
+     res.json({ ...job, isClosed: calculateIsClosed(job.applicationDeadline) });
   } catch (error) {
     console.error("Error fetching job:", error);
     res.status(500).json({ message: "Internal server error" });

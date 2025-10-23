@@ -10,7 +10,8 @@ import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.route.js";
 import jobRoutes from "./routes/job.route.js";
 import applicationRoutes from "./routes/application.route.js"
-import { deleteExpiredJobs } from "./utils/deleteExpiredJobs.js";
+import { closeExpiredJobs } from "./utils/closeExpiredJobs.js";
+import { deleteOldClosedJobs } from "./utils/deleteOldClosedJobs.js";
 
 
 
@@ -29,11 +30,15 @@ app.use(cors({
 const PORT = process.env.PORT || 6000
 
 cron.schedule("0 0 * * *", async () => {
-  console.log("Running daily job cleanup...");
-  await deleteExpiredJobs();
+  console.log("Running daily job maintenance...");
+  await closeExpiredJobs();        
+  await deleteOldClosedJobs();     
 });
 
-deleteExpiredJobs();
+
+closeExpiredJobs();
+deleteOldClosedJobs();
+
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes)
 app.use("/api/applications", applicationRoutes);
