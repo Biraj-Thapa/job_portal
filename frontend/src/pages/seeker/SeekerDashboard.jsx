@@ -16,8 +16,7 @@ const SeekerDashboard = () => {
     (async () => {
       try {
         const res = await api.get("/jobs");
-        setJobs(res.data);
-        setFilteredJobs(res.data);
+      setJobs(res.data)
       } catch (err) {
         console.error(err);
       }
@@ -104,7 +103,7 @@ const SeekerDashboard = () => {
             <JobCard
               key={job.id}
               job={job}
-              onApply={() => handleApply(job.id)}
+              onApply={() => !job.isClosed && handleApply(job.id)}
               onClickCard={() => handleViewDetail(job.id)}
             />
           ))}
