@@ -12,7 +12,7 @@ const MyJobs = () => {
     try {
       const res = await api.get("/jobs");
       const user = JSON.parse(localStorage.getItem("auth"))?.user;
-      const employerJobs = res.data.filter(job => job.employerId === user.id);
+      const employerJobs = res.data.filter((job) => job.employerId === user.id);
       setJobs(employerJobs);
     } catch (err) {
       console.error(err);
@@ -30,7 +30,7 @@ const MyJobs = () => {
         headers: { Authorization: `Bearer ${authData.token}` },
       });
       toast.success("Job deleted successfully!");
-      setJobs(jobs.filter(job => job.id !== id));
+      setJobs(jobs.filter((job) => job.id !== id));
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || "Failed to delete job");
@@ -43,30 +43,85 @@ const MyJobs = () => {
 
   if (loading) return <p className="text-center mt-10">Loading jobs...</p>;
 
-  return (
-    <div className="max-w-4xl mx-auto mt-10">
-      <h2 className="text-2xl font-bold mb-4 text-center">My Posted Jobs</h2>
+  const totalJobs = jobs.length;
+  const closedJobs = jobs.filter((job) => job.isClosed).length;
+  const activeJobs = totalJobs - closedJobs;
+  const totalApplicants = jobs.reduce(
+    (sum, job) => sum + (job.applications?.length || 0),
+    0
+  );
 
+  return (
+    <div className="max-w-6xl mx-auto mt-10 px-4">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
+        Employer Dashboard
+      </h2>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-blue-100 p-4 rounded-xl shadow text-center">
+          <p className="text-sm text-gray-600">Total Jobs</p>
+          <p className="text-2xl font-bold text-blue-600">{totalJobs}</p>
+        </div>
+        <div className="bg-green-100 p-4 rounded-xl shadow text-center">
+          <p className="text-sm text-gray-600">Active Jobs</p>
+          <p className="text-2xl font-bold text-green-600">{activeJobs}</p>
+        </div>
+        <div className="bg-red-100 p-4 rounded-xl shadow text-center">
+          <p className="text-sm text-gray-600">Closed Jobs</p>
+          <p className="text-2xl font-bold text-red-600">{closedJobs}</p>
+        </div>
+        <div className="bg-yellow-100 p-4 rounded-xl shadow text-center">
+          <p className="text-sm text-gray-600">Applicants</p>
+          <p className="text-2xl font-bold text-yellow-600">
+            {totalApplicants}
+          </p>
+        </div>
+      </div>
       {jobs.length === 0 ? (
-        <p className="text-center text-gray-500">You haven’t posted any jobs yet.</p>
+        <p className="text-center text-gray-500">
+          You haven’t posted any jobs yet.
+        </p>
       ) : (
-        <div className="space-y-4">
-          {jobs.map(job => (
-            <div key={job.id} className="p-4 border rounded-lg shadow flex justify-between items-center">
-              <div>
-                <h3 className="text-lg font-semibold">{job.title}</h3>
-                <p className="text-sm text-gray-600">{job.company}</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {jobs.map((job) => (
+            <div
+              key={job.id}
+              className="p-5 bg-white rounded-xl shadow hover:shadow-lg transition duration-200 border"
+            >
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {job.title}
+                </h3>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full ${
+                    job.isClosed
+                      ? "bg-red-100 text-red-600"
+                      : "bg-green-100 text-green-600"
+                  }`}
+                >
+                  {job.isClosed ? "Closed" : "Active"}
+                </span>
               </div>
-              <div className="space-x-2">
+              <p className="text-sm text-gray-600 mb-2">{job.company}</p>
+              <p className="text-sm text-gray-500 line-clamp-2 mb-3">
+                {job.description}
+              </p>
+              <p className="text-xs text-gray-500 mb-2">
+                Applicants: {job.applications?.length || 0}
+              </p>
+
+              <div className="flex justify-between mt-3">
                 <button
-                  onClick={() => navigate(`/employer/edit-job/${job.id}`)}
-                  className="btn btn-sm btn-info"
+                  onClick={() =>
+                    navigate(`/employer/edit-job/${job.id}`)
+                  }
+                  className="text-blue-600 text-sm font-medium hover:underline"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(job.id)}
-                  className="btn btn-sm btn-error"
+                  className="text-red-600 text-sm font-medium hover:underline"
                 >
                   Delete
                 </button>

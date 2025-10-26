@@ -3,6 +3,7 @@ import api from "../../api/axios";
 import JobCard from "../../components/jobs/JobCard";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
+import Pagination from "../../components/common/Pagination";
 
 const SeekerDashboard = () => {
   const [jobs, setJobs] = useState([]);
@@ -10,13 +11,15 @@ const SeekerDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [levelFilter, setLevelFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 7;
   const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       try {
         const res = await api.get("/jobs");
-      setJobs(res.data)
+        setJobs(res.data);
       } catch (err) {
         console.error(err);
       }
@@ -42,7 +45,14 @@ const SeekerDashboard = () => {
     }
 
     setFilteredJobs(filtered);
+    setFilteredJobs(filtered);
+    setCurrentPage(1);
   }, [searchTerm, categoryFilter, levelFilter, jobs]);
+
+  const indexOfLastJob = currentPage * jobsPerPage;
+  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+  const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
 
   const handleApply = (jobId) => navigate(`/seeker/jobs/${jobId}/apply`);
   const handleViewDetail = (jobId) => navigate(`/seeker/jobs/${jobId}`);
@@ -99,7 +109,7 @@ const SeekerDashboard = () => {
         <p className="text-gray-500 text-center mt-10">No jobs found.</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredJobs.map((job) => (
+          {currentJobs.map((job) => (
             <JobCard
               key={job.id}
               job={job}
@@ -108,7 +118,13 @@ const SeekerDashboard = () => {
             />
           ))}
         </div>
+        
       )}
+       <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
     </div>
   );
 };
